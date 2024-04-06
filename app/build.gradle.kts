@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -57,23 +57,37 @@ dependencies {
     val lifecycle_version = "2.7.0"
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
+    val destinations = "1.10.2"
+
+    implementation("io.github.raamcosta.compose-destinations:core:$destinations")
+    ksp("io.github.raamcosta.compose-destinations:ksp:$destinations")
+
+
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     //navigation
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+//    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 
     //room
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
-    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
@@ -83,7 +97,7 @@ dependencies {
 
     // Annotation processor
     //kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
-    kapt("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+    ksp("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
     //gson
     implementation("com.google.code.gson:gson:2.10.1")
@@ -98,7 +112,7 @@ dependencies {
 
     //Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

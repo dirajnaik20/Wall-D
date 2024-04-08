@@ -1,4 +1,4 @@
-package com.example.wall_d.presentation
+package com.example.wall_d.presentation.wallpapers
 
 import android.util.Log
 import androidx.compose.runtime.State
@@ -33,7 +33,7 @@ class WallpaperViewModel @Inject constructor(
                 1
             )
             withContext(Dispatchers.Main){
-                _uiState.value= response.data?.wallpapers?.size.toString()
+                _uiState.value= response.data?.wallpapers?.size.toString() ?:" "
 
             }
 

@@ -7,12 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.wall_d.presentation.NavGraphs
-import com.example.wall_d.presentation.WallpaperViewModel
+import com.example.wall_d.presentation.wallpapers.NavGraphs
+import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.ui.theme.WallDTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

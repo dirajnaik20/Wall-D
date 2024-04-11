@@ -1,5 +1,6 @@
 package com.example.wall_d.presentation.wallpapers
 
+import android.graphics.Color.parseColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,8 @@ fun WallpaperScreenContainer(
     destinationsNavigator: DestinationsNavigator
 ) {
 
+    val mainResponseUiState = viewModel.mainResponseUiState
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +41,8 @@ fun WallpaperScreenContainer(
             modifier = Modifier
                 .fillMaxWidth(1f)
                 .weight(0.78f)
-                .background(Color.Green)
+                .background(Color(parseColor("#0D0E0E"))),
+            mainResponseUiState=mainResponseUiState.value
         )
         WallpaperBottomNavigationContainer(
             modifier = Modifier

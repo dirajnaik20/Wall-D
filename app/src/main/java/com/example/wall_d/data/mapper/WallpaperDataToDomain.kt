@@ -21,6 +21,7 @@ fun List<WallpaperDTO>.toWallpaperInfo(): List<WallpaperInfo> {
                 fileType = it.fileType,
                 resolution = it.resolution,
                 url = it.url,
+                path= it.path,
                 views = it.views
             )
         }

@@ -1,5 +1,7 @@
 package com.example.wall_d.domain.model
 
+import java.security.cert.CertPath
+
 data class MainResponseInfo(
    val wallpapers:List<WallpaperInfo>
 )
@@ -11,5 +13,6 @@ data class  WallpaperInfo(
     val fileType: String,
     val resolution: String,
     val url: String,
+    val path: String,
     val views: Int
 )

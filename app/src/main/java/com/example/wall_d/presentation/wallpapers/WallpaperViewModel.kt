@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wall_d.domain.repository.WallpaperRepository
+import com.example.wall_d.presentation.mapper.toMainResponseUiState
+import com.example.wall_d.presentation.model.MainResponseUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,8 +24,9 @@ class WallpaperViewModel @Inject constructor(
         initialAPICall()
     }
 
-    private val _uiState = mutableStateOf(" ")
-    val uiState: State<String> =_uiState
+    private val _mainResponseUiState =
+        mutableStateOf(MainResponseUiState(latestWallpapers = emptyList()))
+    val mainResponseUiState: State<MainResponseUiState> = _mainResponseUiState
 
     private fun initialAPICall() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -32,9 +35,9 @@ class WallpaperViewModel @Inject constructor(
                 "views",
                 1
             )
-            withContext(Dispatchers.Main){
-                _uiState.value= response.data?.wallpapers?.size.toString() ?:" "
-
+            withContext(Dispatchers.Main) {
+                _mainResponseUiState.value = response.data?.toMainResponseUiState()?:
+                MainResponseUiState(latestWallpapers = listOf())
             }
 
         }

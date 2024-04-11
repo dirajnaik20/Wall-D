@@ -29,7 +29,7 @@ fun WallpaperHeadingContainer(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp,30.dp,0.dp,0.dp)
+            .padding(20.dp,60.dp,0.dp,0.dp)
     ) {
         Text(
             text = "Wall-D.",

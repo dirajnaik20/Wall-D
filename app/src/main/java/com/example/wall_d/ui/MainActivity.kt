@@ -5,18 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.wall_d.presentation.wallpapers.NavGraphs
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
+import com.example.wall_d.presentation.wallpapers.bottom_navigations.AppBottomBarNavigation
 import com.example.wall_d.ui.theme.WallDTheme
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var viewModel: WallpaperViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -31,24 +32,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WallDTheme {
-                AppNavigation(this@MainActivity)
+//                AppNavigation(this@MainActivity)
+                AppBottomBarNavigation(viewModel)
             }
         }
     }
 }
 
-@Composable
-private fun AppNavigation(activity: ComponentActivity) {
-
-    DestinationsNavHost(
-        navGraph = NavGraphs.root,
-        dependenciesContainerBuilder = {
-            dependency(
-                hiltViewModel<WallpaperViewModel>(activity)
-
-            )
-
-        }
-    )
-
-}
+//@Composable
+//private fun AppNavigation(activity: ComponentActivity) {
+//
+//    DestinationsNavHost(
+//        navGraph = NavGraphs.root,
+//        dependenciesContainerBuilder = {
+//            dependency(
+//                hiltViewModel<WallpaperViewModel>(activity)
+//
+//            )
+//
+//        }
+//    )
+//
+//}

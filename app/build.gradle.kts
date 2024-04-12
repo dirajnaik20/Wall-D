@@ -71,7 +71,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     //navigation
-//    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 

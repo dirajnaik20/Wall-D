@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.ui.Modifier
+import com.example.wall_d.presentation.SharedViewModel
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.presentation.wallpapers.bottom_navigations.AppBottomBarNavigation
 import com.example.wall_d.ui.theme.WallDTheme
@@ -17,6 +19,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var viewModel: WallpaperViewModel
+
+    @Inject
+    lateinit var sharedViewModel: SharedViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +38,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WallDTheme {
 //                AppNavigation(this@MainActivity)
-                AppBottomBarNavigation(viewModel)
+                AppBottomBarNavigation(viewModel,sharedViewModel)
             }
         }
     }

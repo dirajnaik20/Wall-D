@@ -4,5 +4,6 @@ enum class Screens {
     PopularScreen,
     NewScreen,
     BookmarkScreen,
-    SettingScreen
+    SettingScreen,
+    DetailsScreen
 }

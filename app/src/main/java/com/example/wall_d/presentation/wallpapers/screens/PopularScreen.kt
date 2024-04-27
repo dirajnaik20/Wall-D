@@ -7,15 +7,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.navigation.NavController
+import com.example.wall_d.R
+import com.example.wall_d.presentation.SharedViewModel
+import com.example.wall_d.presentation.model.WallpaperUiState
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.presentation.wallpapers.composables.WallpaperListContainer
 
 @Composable
 fun PopularScreen(
-    viewModel: WallpaperViewModel
+    viewModel: WallpaperViewModel,
+    sharedViewModel: SharedViewModel,
+    onItemClick: (wallpaperUiState: WallpaperUiState) -> Unit
 ) {
-    val mainResponseUiState = viewModel.mainResponseUiState
+    val popList = viewModel.popList
+    val loadingPop = viewModel.loadingPopState
 
     Box(
         modifier = Modifier
@@ -29,11 +36,22 @@ fun PopularScreen(
 //            fontFamily = fontFamilyBungee
 //        )
 
+
+
         WallpaperListContainer(
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .background(Color(android.graphics.Color.parseColor("#0D0E0E"))),
-            mainResponseUiState = mainResponseUiState.value
+                .background(colorResource(id = R.color.listBackground)),
+            wallpaperList = popList.value,
+            loadingPop=loadingPop.value,
+            onPopularChangeScrollPosition = {
+                viewModel.onChangePopularScrollPosition(it)
+            },
+            pagePopular = viewModel.pagePopular.value,
+            nextPopularPage = {
+                viewModel.getNextPopularPage()
+            },
+            onItemClick=onItemClick
         )
 
     }

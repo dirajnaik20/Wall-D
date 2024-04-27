@@ -6,6 +6,7 @@ import com.example.wall_d.data.WallHeavenApi
 import com.example.wall_d.data.mapper.toMainResponseInfo
 import com.example.wall_d.domain.model.MainResponseInfo
 import com.example.wall_d.domain.repository.WallpaperRepository
+import com.example.wall_d.utils.Constants
 import com.example.wall_d.utils.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,32 +16,52 @@ class WallpaperRepositoryImpl @Inject constructor(
     private val wallHeavenApi: WallHeavenApi
 ) : WallpaperRepository {
 
-    companion object{
+    companion object {
         private val TAG = WallpaperRepositoryImpl::class.java.simpleName
 //        private val TAG = "Diraj"
     }
-    override suspend fun getWallpaperList(
-        query: String,
-        sorting: String,
+
+    override suspend fun getPopularWallpaperList(
         page: Int
     ): Resource<MainResponseInfo> {
         return try {
 
-            Log.d(TAG,"REQ ==> getWallpaperList() ==> $query")
+            Log.d(TAG, "REQ ==> getWallpaperList() ==> $page")
             val response = wallHeavenApi.getImageList(
-                query=query,
-                sorting=sorting,
-                page=page
+                query = Constants.queryParamPopular,
+                sorting = Constants.sortingPopular,
+                page = page
             )
-            Log.d(TAG,"RESP <== getWallpaperList() <== $response")
+            Log.d(TAG, "RESP <== getWallpaperList() <== $response")
 
-            val data=response.toMainResponseInfo()
-            Resource.Success(data=data)
+            val data = response.toMainResponseInfo()
+            Resource.Success(data = data)
 
-        }
-        catch (e:HttpException){
+        } catch (e: HttpException) {
             e.printStackTrace()
             Resource.Error("getWallpaperList() => Failed api request")
         }
     }
+
+
+    override suspend fun getNewWallpaperList(page: Int): Resource<MainResponseInfo> {
+        return try {
+
+            Log.d(TAG, "REQ ==> getWallpaperList() ==> $page")
+            val response = wallHeavenApi.getImageList(
+                query = Constants.queryParamNew,
+                sorting = Constants.sortingNew,
+                page = page
+            )
+            Log.d(TAG, "RESP <== getWallpaperList() <== $response")
+
+            val data = response.toMainResponseInfo()
+            Resource.Success(data = data)
+
+        } catch (e: HttpException) {
+            e.printStackTrace()
+            Resource.Error("getWallpaperList() => Failed api request")
+        }
+    }
+
 }

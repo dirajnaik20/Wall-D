@@ -10,6 +10,7 @@ import com.example.wall_d.presentation.SharedViewModel
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.presentation.wallpapers.bottom_navigations.AppBottomBarNavigation
 import com.example.wall_d.ui.theme.WallDTheme
+import com.example.wall_d.utils.download.AndroidDownloader
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +25,13 @@ class MainActivity : ComponentActivity() {
     lateinit var sharedViewModel: SharedViewModel
 
 
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val downloader = AndroidDownloader(this)
 
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
@@ -38,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WallDTheme {
 //                AppNavigation(this@MainActivity)
-                AppBottomBarNavigation(viewModel,sharedViewModel)
+                AppBottomBarNavigation(viewModel,sharedViewModel,downloader)
             }
         }
     }

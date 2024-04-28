@@ -8,14 +8,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -28,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -36,13 +40,13 @@ import androidx.compose.ui.unit.dp
 import com.example.wall_d.R
 import com.example.wall_d.presentation.SharedViewModel
 import com.example.wall_d.presentation.util.LoadImage
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
     sharedViewModel: SharedViewModel,
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    download : (String,String) -> Unit
 ) {
     val onClickedWallpaperItem = sharedViewModel.onClickedWallpaperItem
 
@@ -158,6 +162,32 @@ fun DetailsScreen(
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.Start
                 ) {
+
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(40.dp)
+                            .clickable { download(onClickedWallpaperItem.value.id,onClickedWallpaperItem.value.path) },
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_download),
+                            contentDescription = "Download"
+                        )
+                    }
+
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .clip(RoundedCornerShape(3.dp))
+                            .alpha(0.3f),
+                        color = Color.LightGray
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     RowWithIcon(
                         text = onClickedWallpaperItem.value.fileType,

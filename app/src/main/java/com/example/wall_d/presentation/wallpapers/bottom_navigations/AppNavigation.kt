@@ -36,13 +36,15 @@ import com.example.wall_d.presentation.wallpapers.screens.DetailsScreen
 import com.example.wall_d.presentation.wallpapers.screens.NewScreen
 import com.example.wall_d.presentation.wallpapers.screens.PopularScreen
 import com.example.wall_d.presentation.wallpapers.screens.SettingsScreen
+import com.example.wall_d.utils.download.AndroidDownloader
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBottomBarNavigation(
     viewModel: WallpaperViewModel,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    downloader: AndroidDownloader
 ) {
 
     val navController = rememberNavController()
@@ -162,6 +164,9 @@ fun AppBottomBarNavigation(
                     sharedViewModel,
                     onBackButtonClicked = {
                         navController.popBackStack()
+                    },
+                    download = {str1,str2 ->
+                        downloader.downloadFile(str1,str2)
                     }
                 )
             }

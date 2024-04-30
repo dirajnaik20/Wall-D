@@ -1,6 +1,5 @@
 ﻿
-﻿#Wall-D
-
+# Wall-D
 
 Introducing Wall-D :
 🌟 Your ultimate wallpaper companion! Powered by Kotlin, it's your gateway to endless creativity.

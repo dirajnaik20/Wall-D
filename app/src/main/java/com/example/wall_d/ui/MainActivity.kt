@@ -6,6 +6,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
+import com.example.wall_d.presentation.BookMarkViewModel
 import com.example.wall_d.presentation.SharedViewModel
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.presentation.wallpapers.bottom_navigations.AppBottomBarNavigation
@@ -23,6 +24,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var sharedViewModel: SharedViewModel
+
+    @Inject
+    lateinit var bookMarkViewModel: BookMarkViewModel
 
 
 
@@ -45,7 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WallDTheme {
 //                AppNavigation(this@MainActivity)
-                AppBottomBarNavigation(viewModel,sharedViewModel,downloader)
+                AppBottomBarNavigation(viewModel,sharedViewModel,downloader,bookMarkViewModel)
             }
         }
     }

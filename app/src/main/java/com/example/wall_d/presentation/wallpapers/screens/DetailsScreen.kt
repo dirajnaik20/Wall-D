@@ -39,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.wall_d.R
 import com.example.wall_d.presentation.SharedViewModel
+import com.example.wall_d.presentation.model.WallpaperUiState
 import com.example.wall_d.presentation.util.LoadImage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,7 +47,11 @@ import com.example.wall_d.presentation.util.LoadImage
 fun DetailsScreen(
     sharedViewModel: SharedViewModel,
     onBackButtonClicked: () -> Unit,
-    download : (String,String) -> Unit
+    download : (String,String) -> Unit,
+    saveWallpaper:(WallpaperUiState) -> Unit,
+    isBookMark: () -> Boolean,
+    updateIsBookMark: () -> Unit,
+    deleteWallpaper:(WallpaperUiState) -> Unit
 ) {
     val onClickedWallpaperItem = sharedViewModel.onClickedWallpaperItem
 
@@ -62,40 +67,6 @@ fun DetailsScreen(
         contentAlignment = Alignment.Center,
     ) {
         LoadImage(url = onClickedWallpaperItem.value.path)
-
-//        Button(
-//            onClick = {
-//                onBackButtonClicked()
-//            },
-//            modifier = Modifier
-//                .align(Alignment.TopStart)
-//                .padding(20.dp)
-//                .background(Color.Transparent)
-//
-//        ) {
-//            Icon(
-//                painterResource(
-//                    id = R.drawable.ic_left_back_arrow
-//                ),
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .size(20.dp)
-//                ,
-//                tint = colorResource(id = R.color.titleColor)
-//            )
-//
-//        }
-
-//        Button(
-//            onClick = { /*TODO*/ },
-//            modifier = Modifier
-//                .align(Alignment.TopEnd)
-//                .padding(20.dp)
-//
-//        ) {
-//            Text(text = "BACK")
-//
-//        }
 
         Box(
             modifier = Modifier
@@ -123,12 +94,30 @@ fun DetailsScreen(
                 .clip(CircleShape)
                 .size(45.dp)
                 .background(colorResource(R.color.pastelPrimary).copy(alpha = 0.4f))
-                .clickable { }
+                .clickable {
+                    updateIsBookMark()
+                    if (isBookMark()){
+
+                        saveWallpaper(onClickedWallpaperItem.value)
+
+                    }
+                    else{
+                        deleteWallpaper(onClickedWallpaperItem.value)
+                    }
+
+
+                }
                 .align(Alignment.TopEnd),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_bookmark_border),
+                painter =
+                    when(isBookMark()){
+                        true -> painterResource(id = R.drawable.ic_bookmark_filled)
+                        false -> painterResource(id = R.drawable.ic_bookmark_border)
+                    }
+
+                ,
                 contentDescription = "bookmark-button",
                 tint = Color.White,
                 modifier = Modifier.size(30.dp)

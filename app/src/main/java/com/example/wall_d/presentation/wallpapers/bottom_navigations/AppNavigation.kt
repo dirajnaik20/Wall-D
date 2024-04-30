@@ -21,14 +21,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.wall_d.R
+import com.example.wall_d.presentation.BookMarkViewModel
 import com.example.wall_d.presentation.SharedViewModel
+import com.example.wall_d.presentation.mapper.toBookMarkWallpaper
 import com.example.wall_d.presentation.wallpapers.WallpaperViewModel
 import com.example.wall_d.presentation.wallpapers.composables.TopAppBarHeading
 import com.example.wall_d.presentation.wallpapers.screens.BookmarkScreen
@@ -37,6 +37,7 @@ import com.example.wall_d.presentation.wallpapers.screens.NewScreen
 import com.example.wall_d.presentation.wallpapers.screens.PopularScreen
 import com.example.wall_d.presentation.wallpapers.screens.SettingsScreen
 import com.example.wall_d.utils.download.AndroidDownloader
+import androidx.compose.runtime.livedata.observeAsState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +45,9 @@ import com.example.wall_d.utils.download.AndroidDownloader
 fun AppBottomBarNavigation(
     viewModel: WallpaperViewModel,
     sharedViewModel: SharedViewModel,
-    downloader: AndroidDownloader
+    downloader: AndroidDownloader,
+    bookMarkViewModel: BookMarkViewModel
+
 ) {
 
     val navController = rememberNavController()
@@ -153,7 +156,17 @@ fun AppBottomBarNavigation(
             }
 
             composable(route = Screens.BookmarkScreen.name) {
-                BookmarkScreen()
+                BookmarkScreen(
+                    getSavedList = {
+
+                        return@BookmarkScreen bookMarkViewModel.savedWallpaperList
+
+                    },
+                    deleteWallpaper = {
+                        bookMarkViewModel.deleteWallpaper(it)
+
+                    }
+                )
             }
 
             composable(route = Screens.SettingScreen.name) {
@@ -165,8 +178,21 @@ fun AppBottomBarNavigation(
                     onBackButtonClicked = {
                         navController.popBackStack()
                     },
-                    download = {str1,str2 ->
-                        downloader.downloadFile(str1,str2)
+                    download = { str1, str2 ->
+                        downloader.downloadFile(str1, str2)
+                    },
+                    saveWallpaper = {
+                        bookMarkViewModel.saveWallpaper(it.toBookMarkWallpaper())
+
+                    },
+                    isBookMark = {
+                        return@DetailsScreen bookMarkViewModel.isBookMark.value
+                    },
+                    updateIsBookMark = {
+                        bookMarkViewModel.updateIsBookMark()
+                    },
+                    deleteWallpaper = {
+                        bookMarkViewModel.deleteWallpaper(it.toBookMarkWallpaper())
                     }
                 )
             }
